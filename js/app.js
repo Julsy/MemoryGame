@@ -31,18 +31,18 @@ function shuffle(array) {
 startGame();
 
 function showCard(card) {
+  console.log("showing card");
   card.classList.add('open', 'show');
-  //card.classList.add("show");
 }
 
 function closeCards(cardA, cardB) {
+  console.log("closing cards");
   cardA.classList.remove('open', 'show');
   cardB.classList.remove('open', 'show');
-  //cardA.classList.remove("show");
-  //cardB.classList.remove("show");
 }
 
 function lockCards(cardA, cardB) {
+  console.log("locking cards");
   cardA.classList.add("match");
   cardB.classList.add("match");
 }
@@ -75,14 +75,15 @@ function generateGameboard() {
 }
 
 function compareCards(cardA, cardB) {
-  console.log("comparing: " + cardA, cardB)
-  if(cardA.innerHTML === cardB.innerHTML) {
+  console.log("comparing: ", cardA, cardB)
+  if (cardA.innerHTML === cardB.innerHTML) {
       console.log("MATCH");
+      lockCards(cardA, cardB);
       return true;
-      // deactiveteCards(cardA, cardB);
   }
   else {
     console.log("NO match");
+    // setTimeout(function(){ closeCards(cardA, cardB); }, 200);
     closeCards(cardA, cardB);
     return false;
   };
@@ -104,7 +105,8 @@ function startGame() {
     card.addEventListener('click', function _handler() {
       totalClicked += 1;
       console.log(totalClicked);
-      setTimeout(function(){ showCard(card); }, 200);
+      showCard(card);
+      // setTimeout(function(){ showCard(card); }, 300);
       if (lastFlipped) {
         console.log(lastFlipped, card);
         compareCards(lastFlipped, card);
