@@ -28,6 +28,25 @@ function shuffle(array) {
     return array;
 };
 
+startGame();
+
+function showCard(card) {
+  card.classList.add('open', 'show');
+  //card.classList.add("show");
+}
+
+function closeCards(cardA, cardB) {
+  cardA.classList.remove('open', 'show');
+  cardB.classList.remove('open', 'show');
+  //cardA.classList.remove("show");
+  //cardB.classList.remove("show");
+}
+
+function lockCards(cardA, cardB) {
+  cardA.classList.add("match");
+  cardB.classList.add("match");
+}
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -56,7 +75,17 @@ function generateGameboard() {
 }
 
 function compareCards(cardA, cardB) {
-
+  console.log("comparing: " + cardA, cardB)
+  if(cardA.innerHTML === cardB.innerHTML) {
+      console.log("MATCH");
+      return true;
+      // deactiveteCards(cardA, cardB);
+  }
+  else {
+    console.log("NO match");
+    closeCards(cardA, cardB);
+    return false;
+  };
 }
 
 function gameOver() {
@@ -65,19 +94,25 @@ function gameOver() {
 }
 
 let lastFlipped = null;
+let totalClicked = 0;
 
 // get list of al cards and loop through each:
 
-function activateCards() {
+function startGame() {
   // add event listeners
   document.querySelectorAll('li.card').forEach(function(card) {
-    card.addEventListener('click', function() {
+    card.addEventListener('click', function _handler() {
+      totalClicked += 1;
+      console.log(totalClicked);
+      setTimeout(function(){ showCard(card); }, 200);
       if (lastFlipped) {
         console.log(lastFlipped, card);
         compareCards(lastFlipped, card);
+        lastFlipped = null;
       }
       else {
         lastFlipped = card;
+        console.log("else " + card);
       };
     })
   });
@@ -85,9 +120,8 @@ function activateCards() {
 
 // to reset Event listener:
 
-function deactiveteCards() {
-  // remove event listener
-  element.removeEventListener
+function deactiveteCards(cardA, cardB) {
+
 }
 
 // to shuffle:
