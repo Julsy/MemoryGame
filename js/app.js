@@ -18,13 +18,6 @@ let cardList = ['fa-diamond', 'fa-diamond',
 				'fa-bicycle', 'fa-bicycle',
 				'fa-bomb', 'fa-bomb'];
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
@@ -110,8 +103,11 @@ function startGame() {
   allCards.forEach(function(card) {
     card.addEventListener('click', function _handler() {
       totalClicked += 1;
+      if (totalClicked == 1) {
+        console.log("Starting timer! totalClicked: " + totalClicked);
+          startTimer();
+      }
       updateMoves(totalClicked);
-      // console.log(totalClicked);
       showCard(card);
       if (lastFlipped) {
         compareCards(lastFlipped, card);
@@ -130,31 +126,48 @@ function deactiveteCards(cardA, cardB) {
 
 }
 
-// to start-reset timer:
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+let t;
+const timer = document.querySelector('.timer');
 
-let time = 0;
-let timer;
-let initialClick = false; // once clicked - change to true, startTimer
+function add() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+    }
+    timer.textContent = "Time: " + (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    startTimer();
+}
 
 function startTimer() {
-   timer = setInterval(function() {
-    time++;
-    console.log(time);
-  }, 1000);
+   t = setTimeout(add, 1000);
 };
 
-function clearTImer() {
-  clearInterval(timer);
+function stopTimer() {
+  console.log("STOP timer");
+  timer.textContent = "Time: 00:00:00";
+  clearTimeout(t);
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
 };
 
 resetButton.addEventListener('click', function() {
-  clearTImer();
-  startTimer();
+  lastFlipped = null;
+  totalClicked = 0;
+  matchedPair = 0;
+  updateMoves(0);
+  stopTimer();
+  createBoard();
+  startGame();
 })
-
-// do not start the timer when user clicks off the Gameboard !!!
-
-
 
 /* TODO:
 
