@@ -6,8 +6,17 @@ let lastFlipped = null;
 let totalClicked = 0;
 let matchedPair = 0;
 let stars = document.querySelectorAll('ul.stars');
-const allCards = document.querySelectorAll('ul.deck li');
+const deck = document.querySelector('ul.deck');
 const resetButton = document.querySelector('.restart');
+
+let cardList = ['fa-diamond', 'fa-diamond',
+				'fa-paper-plane-o', 'fa-paper-plane-o',
+				'fa-anchor', 'fa-anchor',
+				'fa-bolt', 'fa-bolt',
+				'fa-cube', 'fa-cube',
+				'fa-leaf', 'fa-leaf',
+				'fa-bicycle', 'fa-bicycle',
+				'fa-bomb', 'fa-bomb'];
 
 /*
  * Display the cards on the page
@@ -49,31 +58,22 @@ function lockCards(cardA, cardB) {
   cardB.classList.add("match");
 }
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
 // to remove children:
 
 // stars.removeChild([0]);
 
-function createBoard() {
-  shuffledCards = shuffle(Array.from(allCards));
-  console.log(shuffledCards)
-  // document.querySelector('.score-panel').append(shuffledCards);
-  // then appened shuffled cards back to the DOM
-  // let elem = document.createElement(tagName[, options]);
+function generateCardHTML(card) {
+	return `<li class="card"><i class="fa ${card}"></i></li>`;
 }
 
-function generateGameboard() {
-
+function createBoard() {
+  console.log(cardList);
+  shuffledCards = shuffle(cardList);
+  console.log(shuffledCards)
+  shuffledCardsHTML = cardList.map(function(card) {
+    return generateCardHTML(card)
+  });
+  deck.innerHTML = shuffledCardsHTML.join('');
 }
 
 function compareCards(cardA, cardB) {
@@ -95,8 +95,8 @@ function compareCards(cardA, cardB) {
 }
 
 function gameOver() {
+  // create pop-up with WINNER => final score => restart the game? button
   console.log("WINNER");
-
 }
 
 function updateMoves(totalClicked) {
@@ -106,21 +106,19 @@ function updateMoves(totalClicked) {
 // get list of al cards and loop through each:
 
 function startGame() {
-  // add event listeners
+  const allCards = document.querySelectorAll('ul.deck li');
   allCards.forEach(function(card) {
     card.addEventListener('click', function _handler() {
       totalClicked += 1;
       updateMoves(totalClicked);
-      console.log(totalClicked);
+      // console.log(totalClicked);
       showCard(card);
       if (lastFlipped) {
-        console.log(lastFlipped, card);
         compareCards(lastFlipped, card);
         lastFlipped = null;
       }
       else {
         lastFlipped = card;
-        console.log("else " + card);
       };
     })
   });
@@ -160,14 +158,16 @@ resetButton.addEventListener('click', function() {
 
 /* TODO:
 
-OUTLINE features first:
-
 create Gameboard
 
 create card
 
-change score/stars
+change stars
 
 local storage??
+
+responsivness
+
+pop up
 
 */
