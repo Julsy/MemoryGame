@@ -2,8 +2,11 @@
  * Create a list that holds all of your cards
  */
 
+let lastFlipped = null;
+let totalClicked = 0;
+let matchedPair = 0;
+let stars = document.querySelectorAll('ul.stars');
 const allCards = document.querySelectorAll('ul.deck li');
-
 const resetButton = document.querySelector('.restart');
 
 /*
@@ -15,8 +18,7 @@ const resetButton = document.querySelector('.restart');
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
+    let currentIndex = array.length, temporaryValue, randomIndex;
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -24,10 +26,10 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 };
 
+createBoard();
 startGame();
 
 function showCard(card) {
@@ -58,15 +60,15 @@ function lockCards(cardA, cardB) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-// to access stars using DOM
-
-var stars = document.querySelectorAll('ul.stars');
-
 // to remove children:
 
 // stars.removeChild([0]);
 
-function createCard(className) {
+function createBoard() {
+  shuffledCards = shuffle(Array.from(allCards));
+  console.log(shuffledCards)
+  // document.querySelector('.score-panel').append(shuffledCards);
+  // then appened shuffled cards back to the DOM
   // let elem = document.createElement(tagName[, options]);
 }
 
@@ -79,34 +81,38 @@ function compareCards(cardA, cardB) {
   if (cardA.innerHTML === cardB.innerHTML) {
       console.log("MATCH");
       lockCards(cardA, cardB);
+      matchedPair += 1;
+      if (matchedPair == 7) {
+        gameOver();
+      }
       return true;
   }
   else {
     console.log("NO match");
-    // setTimeout(function(){ closeCards(cardA, cardB); }, 200);
-    closeCards(cardA, cardB);
+    setTimeout(function(){ closeCards(cardA, cardB); }, 400);
     return false;
   };
 }
 
 function gameOver() {
-  // if matchedCards.length === 16 it's a win!
-  // else - gameOver
+  console.log("WINNER");
+
 }
 
-let lastFlipped = null;
-let totalClicked = 0;
+function updateMoves(totalClicked) {
+  document.querySelector('.moves').innerHTML = totalClicked;
+}
 
 // get list of al cards and loop through each:
 
 function startGame() {
   // add event listeners
-  document.querySelectorAll('li.card').forEach(function(card) {
+  allCards.forEach(function(card) {
     card.addEventListener('click', function _handler() {
       totalClicked += 1;
+      updateMoves(totalClicked);
       console.log(totalClicked);
       showCard(card);
-      // setTimeout(function(){ showCard(card); }, 300);
       if (lastFlipped) {
         console.log(lastFlipped, card);
         compareCards(lastFlipped, card);
@@ -125,11 +131,6 @@ function startGame() {
 function deactiveteCards(cardA, cardB) {
 
 }
-
-// to shuffle:
-
-shuffle(Array.from(allCards));
-// then appened shuffled cards back to the DOM
 
 // to start-reset timer:
 
@@ -164,10 +165,6 @@ OUTLINE features first:
 create Gameboard
 
 create card
-
-flip card
-
-match cards
 
 change score/stars
 
