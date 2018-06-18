@@ -5,10 +5,10 @@
 let lastFlipped = null;
 let totalClicked = 0;
 let matchedPair = 0;
-let stars = document.querySelectorAll('ul.stars');
+
 const deck = document.querySelector('ul.deck');
 const resetButton = document.querySelector('.restart');
-
+const stars = document.querySelector('ul.stars');
 let cardList = ['fa-diamond', 'fa-diamond',
 				'fa-paper-plane-o', 'fa-paper-plane-o',
 				'fa-anchor', 'fa-anchor',
@@ -51,18 +51,34 @@ function lockCards(cardA, cardB) {
   cardB.classList.add("match");
 }
 
-// to remove children:
+function starRating(moves) {
+  if (moves === 32) {
+    console.log("removing 32");
+    stars.children[0].remove();
+  }
+  else if (moves === 42) {
+    console.log("removing 42");
+    stars.children[0].remove();
+  }
+  else if (moves === 52) {
+    console.log("removing 52");
+    stars.children[0].remove();
+  }
+}
 
-// stars.removeChild([0]);
+function resetStars() {
+  stars.innerHTML = '';
+  for (let i = 0; i < 3; i++) {
+    stars.innerHTML += ('<li><i class="fa fa-star"></i></li>');
+  }
+}
 
 function generateCardHTML(card) {
 	return `<li class="card"><i class="fa ${card}"></i></li>`;
 }
 
 function createBoard() {
-  console.log(cardList);
   shuffledCards = shuffle(cardList);
-  console.log(shuffledCards)
   shuffledCardsHTML = cardList.map(function(card) {
     return generateCardHTML(card)
   });
@@ -109,6 +125,7 @@ function startGame() {
           startTimer();
       }
       updateMoves(totalClicked);
+      starRating(totalClicked);
       showCard(card);
       if (lastFlipped) {
         compareCards(lastFlipped, card);
@@ -166,6 +183,7 @@ resetButton.addEventListener('click', function() {
   matchedPair = 0;
   updateMoves(0);
   stopTimer();
+  resetStars();
   createBoard();
   startGame();
 })
