@@ -90,6 +90,7 @@ function compareCards(cardA, cardB) {
 function gameOver() {
   // create pop-up with WINNER => final score => restart the game? button
   console.log("WINNER");
+  clearTimeout(t);
 }
 
 function updateMoves(totalClicked) {
@@ -170,10 +171,6 @@ resetButton.addEventListener('click', function() {
 })
 
 /* TODO:
-
-create Gameboard
-
-create card
 
 change stars
 
