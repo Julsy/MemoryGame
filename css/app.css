@@ -22,27 +22,15 @@ body {
 }
 
 .container {
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    display: -webkit-flex; /* Safari */
-    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
 }
 
 h1 {
+    font-family: 'Open Sans', sans-serif;
     font-weight: 300;
-}
-
-@media screen and (max-width: 450px) {
-  .container {
-    width: 100%;
-  }
-}
-
-@media screen and (min-width: 451px) {
-  .container {
-    width: 50%;
-  }
 }
 
 /*
@@ -129,10 +117,10 @@ h1 {
     cursor:pointer;
     display:none;
     height:100%;
-    width: 100%;
     position:fixed;
     text-align:center;
     top:0;
+    width:100%;
     z-index:10000;
 }
 
@@ -185,6 +173,10 @@ h1 {
     margin: 20px;
     display: inline-block;
     font-weight: bold;
+}
+
+.game-stats {
+  font-family: 'Merriweather';
 }
 
 button {
