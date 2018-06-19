@@ -6,9 +6,11 @@ let lastFlipped = null;
 let totalClicked = 0;
 let matchedPair = 0;
 
+const pop = document.querySelector('.pop');
 const deck = document.querySelector('ul.deck');
 const resetButton = document.querySelector('.restart');
 const stars = document.querySelector('ul.stars');
+
 let cardList = ['fa-diamond', 'fa-diamond',
 				'fa-paper-plane-o', 'fa-paper-plane-o',
 				'fa-anchor', 'fa-anchor',
@@ -35,46 +37,43 @@ createBoard();
 startGame();
 
 function showCard(card) {
-  console.log("showing card");
   card.classList.add('open', 'show');
 }
 
 function closeCards(cardA, cardB) {
-  console.log("closing cards");
   cardA.classList.remove('open', 'show');
   cardB.classList.remove('open', 'show');
 }
 
 function lockCards(cardA, cardB) {
-  console.log("locking cards");
   cardA.classList.add("match");
   cardB.classList.add("match");
 }
 
 function starRating(moves) {
   if (moves === 32) {
-    console.log("removing 32");
     stars.children[0].remove();
   }
   else if (moves === 42) {
-    console.log("removing 42");
     stars.children[0].remove();
   }
   else if (moves === 52) {
-    console.log("removing 52");
+    stars.children[0].remove();
+  }
+  else if (moves === 62) {
     stars.children[0].remove();
   }
 }
 
 function resetStars() {
   stars.innerHTML = '';
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 5; i++) {
     stars.innerHTML += ('<li><i class="fa fa-star"></i></li>');
   }
 }
 
 function generateCardHTML(card) {
-	return `<li class="card"><i class="fa ${card}"></i></li>`;
+	return `<li class="card"><i class="fa ${card} open show"></i></li>`;
 }
 
 function createBoard() {
@@ -86,27 +85,26 @@ function createBoard() {
 }
 
 function compareCards(cardA, cardB) {
-  console.log("comparing: ", cardA, cardB)
   if (cardA.innerHTML === cardB.innerHTML) {
-      console.log("MATCH");
       lockCards(cardA, cardB);
       matchedPair += 1;
-      if (matchedPair == 7) {
+      if (matchedPair == 8) {
         gameOver();
       }
       return true;
   }
   else {
-    console.log("NO match");
     setTimeout(function(){ closeCards(cardA, cardB); }, 400);
     return false;
   };
 }
 
 function gameOver() {
-  // create pop-up with WINNER => final score => restart the game? button
-  console.log("WINNER");
   clearTimeout(t);
+  $('.popupBkgr').show();
+  document.getElementById('time-counter').innerHTML = timer.textContent;
+  document.getElementById('moves-counter').innerHTML = totalClicked;
+  document.getElementById('stars-counter').innerHTML = stars.childElementCount;;
 }
 
 function updateMoves(totalClicked) {
@@ -120,10 +118,7 @@ function startGame() {
   allCards.forEach(function(card) {
     card.addEventListener('click', function _handler() {
       totalClicked += 1;
-      if (totalClicked == 1) {
-        console.log("Starting timer! totalClicked: " + totalClicked);
-          startTimer();
-      }
+      if (totalClicked == 1) { startTimer(); }
       updateMoves(totalClicked);
       starRating(totalClicked);
       showCard(card);
@@ -178,6 +173,11 @@ function stopTimer() {
 };
 
 resetButton.addEventListener('click', function() {
+  restartGame();
+})
+
+function restartGame() {
+  $('.popupBkgr').hide();
   lastFlipped = null;
   totalClicked = 0;
   matchedPair = 0;
@@ -186,16 +186,22 @@ resetButton.addEventListener('click', function() {
   resetStars();
   createBoard();
   startGame();
-})
+}
+
+// POP-UP
+
+$('.header').click(function(){
+   gameOver();
+});
+
+$('.popupCloseButton').click(function(){
+   $('.popupBkgr').hide();
+});
 
 /* TODO:
-
-change stars
 
 local storage??
 
 responsivness
-
-pop up
 
 */
