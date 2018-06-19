@@ -22,15 +22,27 @@ body {
 }
 
 .container {
-    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    display: -webkit-flex; /* Safari */
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
 }
 
 h1 {
-    font-family: 'Open Sans', sans-serif;
     font-weight: 300;
+}
+
+@media screen and (max-width: 450px) {
+  .container {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 451px) {
+  .container {
+    width: 50%;
+  }
 }
 
 /*
@@ -112,7 +124,7 @@ h1 {
  * Styles for the popup box
  */
 
-.popupBkgr{
+.popup-bkgr{
     background:rgba(0,0,0,.4);
     cursor:pointer;
     display:none;
@@ -124,13 +136,13 @@ h1 {
     z-index:10000;
 }
 
-.popupBkgr .helper{
+.popup-bkgr .helper{
     display:inline-block;
     height:100%;
     vertical-align:middle;
 }
 
-.popupBkgr > div {
+.popup-bkgr > div {
     background-color: #fff;
     box-shadow: 10px 10px 60px #555;
     display: inline-block;
@@ -145,7 +157,7 @@ h1 {
     text-align: left;
 }
 
-.popupCloseButton {
+.popup-close-button {
     background-color: #fff;
     border: 3px solid #999;
     border-radius: 50px;
@@ -163,7 +175,7 @@ h1 {
     text-align: center;
 }
 
-.popupCloseButton:hover {
+.popup-close-button:hover {
     background-color: #ccc;
 }
 

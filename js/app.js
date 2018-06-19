@@ -1,7 +1,3 @@
-/*
- * Create a list that holds all of your cards
- */
-
 let lastFlipped = null;
 let totalClicked = 0;
 let matchedPair = 0;
@@ -20,35 +16,11 @@ let cardList = ['fa-diamond', 'fa-diamond',
 				'fa-bicycle', 'fa-bicycle',
 				'fa-bomb', 'fa-bomb'];
 
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-    return array;
-};
 
 createBoard();
 startGame();
 
-function showCard(card) {
-  card.classList.add('open', 'show');
-}
-
-function closeCards(cardA, cardB) {
-  cardA.classList.remove('open', 'show');
-  cardB.classList.remove('open', 'show');
-}
-
-function lockCards(cardA, cardB) {
-  cardA.classList.add("match");
-  cardB.classList.add("match");
-}
+// STARS
 
 function starRating(moves) {
   if (moves === 32) {
@@ -72,16 +44,20 @@ function resetStars() {
   }
 }
 
-function generateCardHTML(card) {
-	return `<li class="card"><i class="fa ${card} open show"></i></li>`;
+// CARDS
+
+function showCard(card) {
+  card.classList.add('open', 'show');
 }
 
-function createBoard() {
-  shuffledCards = shuffle(cardList);
-  shuffledCardsHTML = cardList.map(function(card) {
-    return generateCardHTML(card)
-  });
-  deck.innerHTML = shuffledCardsHTML.join('');
+function closeCards(cardA, cardB) {
+  cardA.classList.remove('open', 'show');
+  cardB.classList.remove('open', 'show');
+}
+
+function lockCards(cardA, cardB) {
+  cardA.classList.add("match");
+  cardB.classList.add("match");
 }
 
 function compareCards(cardA, cardB) {
@@ -99,19 +75,60 @@ function compareCards(cardA, cardB) {
   };
 }
 
-function gameOver() {
-  clearTimeout(t);
-  $('.popupBkgr').show();
-  document.getElementById('time-counter').innerHTML = timer.textContent;
-  document.getElementById('moves-counter').innerHTML = totalClicked;
-  document.getElementById('stars-counter').innerHTML = stars.childElementCount;;
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+    return array;
+};
+
+function generateCardHTML(card) {
+	return `<li class="card"><i class="fa ${card} open show"></i></li>`;
+}
+
+// GAME FLOW
+
+function createBoard() {
+  shuffledCards = shuffle(cardList);
+  shuffledCardsHTML = cardList.map(function(card) {
+    return generateCardHTML(card)
+  });
+  deck.innerHTML = shuffledCardsHTML.join('');
 }
 
 function updateMoves(totalClicked) {
   document.querySelector('.moves').innerHTML = totalClicked;
 }
 
-// get list of al cards and loop through each:
+resetButton.addEventListener('click', function() {
+  restartGame();
+})
+
+function restartGame() {
+  $('.popup-bkgr').hide();
+  lastFlipped = null;
+  totalClicked = 0;
+  matchedPair = 0;
+  updateMoves(0);
+  stopTimer();
+  resetStars();
+  createBoard();
+  startGame();
+}
+
+function gameOver() {
+  clearTimeout(t);
+  $('.popup-bkgr').show();
+  document.getElementById('time-counter').innerHTML = timer.textContent;
+  document.getElementById('moves-counter').innerHTML = totalClicked;
+  document.getElementById('stars-counter').innerHTML = stars.childElementCount;;
+}
 
 function startGame() {
   const allCards = document.querySelectorAll('ul.deck li');
@@ -133,11 +150,7 @@ function startGame() {
   });
 };
 
-// to reset Event listener:
-
-function deactiveteCards(cardA, cardB) {
-
-}
+// TIMER
 
 let seconds = 0;
 let minutes = 0;
@@ -172,36 +185,18 @@ function stopTimer() {
   hours = 0;
 };
 
-resetButton.addEventListener('click', function() {
-  restartGame();
-})
-
-function restartGame() {
-  $('.popupBkgr').hide();
-  lastFlipped = null;
-  totalClicked = 0;
-  matchedPair = 0;
-  updateMoves(0);
-  stopTimer();
-  resetStars();
-  createBoard();
-  startGame();
-}
-
 // POP-UP
 
 $('.header').click(function(){
    gameOver();
 });
 
-$('.popupCloseButton').click(function(){
-   $('.popupBkgr').hide();
+$('.popup-close-button').click(function(){
+   $('.popup-bkgr').hide();
 });
 
 /* TODO:
 
 local storage??
-
-responsivness
 
 */
