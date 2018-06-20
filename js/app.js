@@ -126,8 +126,8 @@ function gameOver() {
   clearTimeout(t);
   $('.popup-bkgr').show();
   document.getElementById('time-counter').innerHTML = timer.textContent;
-  document.getElementById('moves-counter').innerHTML = totalClicked;
-  document.getElementById('stars-counter').innerHTML = stars.childElementCount;;
+  document.getElementById('moves-counter').innerHTML += totalClicked;
+  document.getElementById('stars-counter').innerHTML += stars.childElementCount;;
 }
 
 function startGame() {
