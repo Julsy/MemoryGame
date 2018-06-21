@@ -79,9 +79,13 @@ function showCard(card) {
 function closeCards(cardA, cardB) {
   cardA.classList.remove('open', 'show');
   cardB.classList.remove('open', 'show');
+	jQuery(cardA).removeClass('animated shake');
+	jQuery(cardB).removeClass('animated shake');
 }
 
 function lockCards(cardA, cardB) {
+	jQuery(cardA).addClass('animated tada');
+	jQuery(cardB).addClass('animated tada');
   cardA.classList.add("match");
   cardB.classList.add("match");
 }
@@ -96,7 +100,9 @@ function compareCards(cardA, cardB) {
       return true;
   }
   else {
-    setTimeout(function(){ closeCards(cardA, cardB); }, 400);
+		jQuery(cardA).addClass('animated shake');
+		jQuery(cardB).addClass('animated shake');
+    setTimeout(function(){ closeCards(cardA, cardB); }, 600);
     return false;
   };
 }
