@@ -334,3 +334,41 @@ footer {
     margin-top: 30px;
   }
 }
+
+@media screen and (min-width: 1201px) {
+  h1 {
+    padding: 30px;
+    font-size: 4em;
+  }
+
+  .score-panel {
+    font-size: 2em;
+  }
+
+  ul.deck {
+    padding: 40px;
+    max-width: 1200px;
+    max-height: 1200px;
+    grid-gap: 40px;
+  }
+
+  ul.deck .card {
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  ul.deck .card.show {
+    font-size: 3em;
+  }
+
+  ul.deck .card.match {
+    font-size: 3em;
+  }
+
+  footer {
+    margin-top: 30px;
+    font-size: 2em;
+  }
+}
