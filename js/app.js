@@ -20,7 +20,9 @@ let cardList = ['fa-diamond', 'fa-diamond',
 createBoard();
 startGame();
 
-// STARS
+/*
+ * Functions for star rating
+ */
 
 function starRating(moves) {
   if (moves === 32) {
@@ -44,7 +46,9 @@ function resetStars() {
   }
 }
 
-// CARDS
+/*
+ * Functions for cards
+ */
 
 function showCard(card) {
   card.classList.add('open', 'show');
@@ -75,7 +79,10 @@ function compareCards(cardA, cardB) {
   };
 }
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+/*
+ * Shuffle function from http://stackoverflow.com/a/2450976
+ */
+
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
     while (currentIndex !== 0) {
@@ -92,7 +99,9 @@ function generateCardHTML(card) {
 	return `<li class="card"><i class="fa ${card} open show"></i></li>`;
 }
 
-// GAME FLOW
+/*
+ * General game flow functions
+ */
 
 function createBoard() {
   shuffledCards = shuffle(cardList);
@@ -150,7 +159,9 @@ function startGame() {
   });
 };
 
-// TIMER
+/*
+ * Functions for timer
+ */
 
 let seconds = 0;
 let minutes = 0;
@@ -185,7 +196,9 @@ function stopTimer() {
   hours = 0;
 };
 
-// POP-UP
+/*
+ * Functions for pop-up
+ */
 
 $('.header').click(function(){
    gameOver();
@@ -197,6 +210,7 @@ $('.popup-close-button').click(function(){
 
 /* TODO:
 
-local storage??
+local storage
+leaderboard
 
 */

@@ -19,6 +19,7 @@ body {
 body {
     background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
     font-family: 'Merriweather';
+    overflow: hidden;
 }
 
 .container {
@@ -28,31 +29,58 @@ body {
     flex-direction: column;
 }
 
+header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0px -40px;
+    padding: 0px 10px;
+}
+
 h1 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
 }
 
 @media screen and (max-width: 320px) {
+  .container {
+    width: 320px;
+    margin: 0;
+    padding: 10px;
+  }
+
   h1 {
-    font-size: 2em;
+    padding-top: 10px;
+    font-size: 20px;
   }
 
-  .score-panel .stars .moves .timer .restart  {
-      padding: 2px;
-      font-size: 0.9em;
-      max-width: 320px;
-  }
-
-  .deck {
+  .score-panel .stars .moves .timer .restart {
+    padding: 2px;
+    font-size: 20px;
     max-width: 320px;
-    max-height: 320px;
   }
 
-  .deck .card {
-      max-height: 60px;
-      max-width: 60px;
-      font-size: 30px;
+  ul.deck {
+    padding: 10px;
+    max-width: 320px;
+    min-height: 320px;
+    grid-gap: 10px;
+    margin: 0;
+  }
+
+  ul.deck .card {
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+  }
+
+  footer {
+    width: 320px;
+    font-size: 10px;
+    padding: 10px;
   }
 }
 
@@ -61,31 +89,33 @@ h1 {
  */
 
 .deck {
-    width: 660px;
-    min-height: 680px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-gap: 20px;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    min-width: 33%;
+    max-height: 90%;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
-    padding: 32px;
     border-radius: 10px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 3em;
 }
 
 .deck .card {
-    height: 125px;
-    width: 125px;
+    max-height: 125px;
+    max-width: 125px;
     background: #2e3d49;
     font-size: 0;
     color: #ffffff;
     border-radius: 8px;
     cursor: pointer;
-    display: flex;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    display: grid;
+    grid-template-areas: "overlap";
     justify-content: center;
     align-items: center;
-    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
 }
 
 .deck .card.open {
@@ -95,13 +125,13 @@ h1 {
 }
 
 .deck .card.show {
-    font-size: 33px;
+    font-size: 25px;
 }
 
 .deck .card.match {
     cursor: default;
     background: #02ccba;
-    font-size: 33px;
+    font-size: 25px;
 }
 
 /*
@@ -109,9 +139,9 @@ h1 {
  */
 
 .score-panel {
+    font-size: 0.3em;
     text-align: center;
     width: 100%;
-    /* width: 345px;  */
     margin-bottom: 10px;
 }
 
@@ -204,13 +234,13 @@ h1 {
 }
 
 .game-stats {
-  font-family: 'Merriweather';
+    font-family: 'Merriweather';
 }
 
 button {
-  margin-left: 35px;
+    margin-left: 35px;
 }
 
 ul {
-  list-style-type: none;
+    list-style-type: none;
 }
