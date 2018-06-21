@@ -287,7 +287,6 @@ footer {
     max-width: 760px;
     max-height: 760px;
     grid-gap: 25px;
-    margin: 0;
   }
 
   ul.deck .card {
@@ -317,16 +316,11 @@ footer {
     font-size: 3em;
   }
 
-  .score-panel {
-    font-size: 1.2em;
-  }
-
   ul.deck {
     padding: 35px;
     max-width: 1000px;
     max-height: 1000px;
     grid-gap: 35px;
-    margin: 0;
   }
 
   ul.deck .card {
@@ -336,16 +330,7 @@ footer {
     max-height: 150px;
   }
 
-  ul.deck .card.show {
-    font-size: 2.5em;
-  }
-
-  ul.deck .card.match {
-    font-size: 2.5em;
- }
-
   footer {
     margin-top: 30px;
-    font-size: 1.2em;
   }
 }
