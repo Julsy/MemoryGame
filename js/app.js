@@ -2,6 +2,7 @@ let lastFlipped = null;
 let totalClicked = 0;
 let matchedPair = 0;
 
+const TOTAL_PAIRS = 8;
 const pop = document.querySelector('.pop');
 const deck = document.querySelector('ul.deck');
 const resetButton = document.querySelector('.restart');
@@ -47,39 +48,6 @@ function resetStars() {
 }
 
 /*
- * Functions for cards
- */
-
-function showCard(card) {
-  card.classList.add('open', 'show');
-}
-
-function closeCards(cardA, cardB) {
-  cardA.classList.remove('open', 'show');
-  cardB.classList.remove('open', 'show');
-}
-
-function lockCards(cardA, cardB) {
-  cardA.classList.add("match");
-  cardB.classList.add("match");
-}
-
-function compareCards(cardA, cardB) {
-  if (cardA.innerHTML === cardB.innerHTML) {
-      lockCards(cardA, cardB);
-      matchedPair += 1;
-      if (matchedPair == 8) {
-        gameOver();
-      }
-      return true;
-  }
-  else {
-    setTimeout(function(){ closeCards(cardA, cardB); }, 400);
-    return false;
-  };
-}
-
-/*
  * Shuffle function from http://stackoverflow.com/a/2450976
  */
 
@@ -97,6 +65,40 @@ function shuffle(array) {
 
 function generateCardHTML(card) {
 	return `<li class="card"><i class="fa ${card} open show"></i></li>`;
+}
+
+/*
+ * Functions for cards
+ */
+
+function showCard(card) {
+  card.classList.add('open', 'show');
+	card.style.pointerEvents = 'none';
+}
+
+function closeCards(cardA, cardB) {
+  cardA.classList.remove('open', 'show');
+  cardB.classList.remove('open', 'show');
+}
+
+function lockCards(cardA, cardB) {
+  cardA.classList.add("match");
+  cardB.classList.add("match");
+}
+
+function compareCards(cardA, cardB) {
+  if (cardA.innerHTML === cardB.innerHTML) {
+      lockCards(cardA, cardB);
+      matchedPair += 1;
+      if (matchedPair == TOTAL_PAIRS) {
+        gameOver();
+      }
+      return true;
+  }
+  else {
+    setTimeout(function(){ closeCards(cardA, cardB); }, 400);
+    return false;
+  };
 }
 
 /*
@@ -149,7 +151,10 @@ function startGame() {
       starRating(totalClicked);
       showCard(card);
       if (lastFlipped) {
-        compareCards(lastFlipped, card);
+        if (compareCards(lastFlipped, card) === false) {
+					lastFlipped.style.pointerEvents = 'auto';
+					card.style.pointerEvents = 'auto';
+				}
         lastFlipped = null;
       }
       else {
