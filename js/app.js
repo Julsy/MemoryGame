@@ -24,17 +24,17 @@ startGame();
  * Functions for star rating
  */
 
-function starRating(moves) {
-  if (moves === 32) {
+function adjustStarRating(moves) {
+  if (moves === 16) {
+    stars.children[0].remove();
+  }
+  else if (moves === 22) {
+    stars.children[0].remove();
+  }
+  else if (moves === 32) {
     stars.children[0].remove();
   }
   else if (moves === 42) {
-    stars.children[0].remove();
-  }
-  else if (moves === 52) {
-    stars.children[0].remove();
-  }
-  else if (moves === 62) {
     stars.children[0].remove();
   }
 }
@@ -142,7 +142,7 @@ function gameOver() {
   clearTimeout(t);
   $('.popup-bkgr').show();
   document.getElementById('time-counter').innerHTML = timer.textContent;
-  document.getElementById('moves-counter').innerHTML += totalClicked;
+  document.getElementById('moves-counter').innerHTML += totalClicked / 2;
   document.getElementById('stars-counter').innerHTML += stars.childElementCount;;
 }
 
@@ -152,10 +152,10 @@ function startGame() {
     card.addEventListener('click', function _handler() {
       totalClicked += 1;
       if (totalClicked == 1) { startTimer(); }
-      starRating(totalClicked);
       showCard(card);
       if (lastFlipped) {
         updateMoves(totalClicked / 2);
+        adjustStarRating(totalClicked / 2);
         if (compareCards(lastFlipped, card) === false) {
 					lastFlipped.style.pointerEvents = 'auto';
 					card.style.pointerEvents = 'auto';
