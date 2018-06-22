@@ -327,10 +327,10 @@ footer {
   }
 }
 
-@media screen and (min-width: 1001px) {
+@media screen and (min-width: 1025px) {
   h1 {
-	padding: 30px;
 	font-size: 3em;
+	padding-bottom: 10px;
   }
 
   ul.deck {
@@ -346,8 +346,41 @@ footer {
 	max-width: 150px;
 	max-height: 150px;
   }
+}
+
+@media screen and (min-width: 2561px) {
+  h1 {
+	font-size: 4em;
+	padding: 0;
+  }
+
+  .scorepanel {
+	font-size: 4em;
+  }
+
+  ul.deck {
+	padding: 60px;
+	max-width: 2500px;
+	max-height: 2500px;
+	grid-gap: 60px;
+  }
+
+  ul.deck .card {
+	min-width: 400px;
+	min-height: 400px;
+	max-width: 400px;
+	max-height: 400px;
+  }
+
+  ul.deck .card.show {
+	font-size: 6em;
+  }
+
+  ul.deck .card.match {
+	font-size: 6em;
+  }
 
   footer {
-	margin-top: 30px;
+	font-size: 4em;
   }
 }
