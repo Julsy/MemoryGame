@@ -209,10 +209,6 @@ function stopTimer() {
  * Functions for pop-up
  */
 
-$('.header').click(function(){
-   gameOver();
-});
-
 $('.popup-close-button').click(function(){
    $('.popup-bkgr').hide();
 });
