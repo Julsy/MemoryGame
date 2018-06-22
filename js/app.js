@@ -40,7 +40,7 @@ function adjustStarRating(moves) {
 }
 
 function resetStars() {
-  stars.innerHTML = '';
+  stars.innerHTML = null;
   for (let i = 0; i < 5; i++) {
     stars.innerHTML += ('<li><i class="fa fa-star"></i></li>');
   }
@@ -140,10 +140,10 @@ function restartGame() {
 
 function gameOver() {
   clearTimeout(t);
-  $('.popup-bkgr').show();
+  setTimeout(function(){ $('.popup-bkgr').show(); }, 800);
   document.getElementById('time-counter').innerHTML = timer.textContent;
-  document.getElementById('moves-counter').innerHTML += totalClicked / 2;
-  document.getElementById('stars-counter').innerHTML += stars.childElementCount;;
+  document.getElementById('moves-counter').innerHTML = 'Moves: ' + totalClicked / 2;
+  document.getElementById('stars-counter').innerHTML = 'Stars: ' + stars.childElementCount;;
 }
 
 function startGame() {
@@ -198,7 +198,6 @@ function startTimer() {
 };
 
 function stopTimer() {
-  console.log("STOP timer");
   timer.textContent = "Time: 00:00:00";
   clearTimeout(t);
   seconds = 0;
