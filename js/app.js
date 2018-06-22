@@ -2,6 +2,7 @@ let lastFlipped = null;
 let totalClicked = 0;
 let matchedPair = 0;
 
+const TOTAL_PAIRS = 8;
 const pop = document.querySelector('.pop');
 const deck = document.querySelector('ul.deck');
 const resetButton = document.querySelector('.restart');
@@ -16,11 +17,12 @@ let cardList = ['fa-diamond', 'fa-diamond',
 				'fa-bicycle', 'fa-bicycle',
 				'fa-bomb', 'fa-bomb'];
 
-
 createBoard();
 startGame();
 
-// STARS
+/*
+ * Functions for star rating
+ */
 
 function starRating(moves) {
   if (moves === 32) {
@@ -44,18 +46,45 @@ function resetStars() {
   }
 }
 
-// CARDS
+/*
+ * Shuffle function from http://stackoverflow.com/a/2450976
+ */
+
+function shuffle(desk) {
+    let currentIndex = desk.length, temporaryValue, randomIndex;
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = desk[currentIndex];
+        desk[currentIndex] = desk[randomIndex];
+        desk[randomIndex] = temporaryValue;
+    }
+    return desk;
+};
+
+function generateCardHTML(card) {
+	return `<li class="card"><i class="fa ${card} open show"></i></li>`;
+}
+
+/*
+ * Functions for cards
+ */
 
 function showCard(card) {
   card.classList.add('open', 'show');
+	card.style.pointerEvents = 'none';
 }
 
 function closeCards(cardA, cardB) {
   cardA.classList.remove('open', 'show');
   cardB.classList.remove('open', 'show');
+	jQuery(cardA).removeClass('animated shake');
+	jQuery(cardB).removeClass('animated shake');
 }
 
 function lockCards(cardA, cardB) {
+	jQuery(cardA).addClass('animated tada');
+	jQuery(cardB).addClass('animated tada');
   cardA.classList.add("match");
   cardB.classList.add("match");
 }
@@ -64,35 +93,22 @@ function compareCards(cardA, cardB) {
   if (cardA.innerHTML === cardB.innerHTML) {
       lockCards(cardA, cardB);
       matchedPair += 1;
-      if (matchedPair == 8) {
+      if (matchedPair == TOTAL_PAIRS) {
         gameOver();
       }
       return true;
   }
   else {
-    setTimeout(function(){ closeCards(cardA, cardB); }, 400);
+		jQuery(cardA).addClass('animated shake');
+		jQuery(cardB).addClass('animated shake');
+    setTimeout(function(){ closeCards(cardA, cardB); }, 600);
     return false;
   };
 }
 
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-    return array;
-};
-
-function generateCardHTML(card) {
-	return `<li class="card"><i class="fa ${card} open show"></i></li>`;
-}
-
-// GAME FLOW
+/*
+ * General game flow functions
+ */
 
 function createBoard() {
   shuffledCards = shuffle(cardList);
@@ -136,11 +152,14 @@ function startGame() {
     card.addEventListener('click', function _handler() {
       totalClicked += 1;
       if (totalClicked == 1) { startTimer(); }
-      updateMoves(totalClicked);
       starRating(totalClicked);
       showCard(card);
       if (lastFlipped) {
-        compareCards(lastFlipped, card);
+        updateMoves(totalClicked / 2);
+        if (compareCards(lastFlipped, card) === false) {
+					lastFlipped.style.pointerEvents = 'auto';
+					card.style.pointerEvents = 'auto';
+				}
         lastFlipped = null;
       }
       else {
@@ -150,7 +169,9 @@ function startGame() {
   });
 };
 
-// TIMER
+/*
+ * Functions for timer
+ */
 
 let seconds = 0;
 let minutes = 0;
@@ -185,7 +206,9 @@ function stopTimer() {
   hours = 0;
 };
 
-// POP-UP
+/*
+ * Functions for pop-up
+ */
 
 $('.header').click(function(){
    gameOver();
@@ -197,6 +220,7 @@ $('.popup-close-button').click(function(){
 
 /* TODO:
 
-local storage??
+local storage
+leaderboard
 
 */
